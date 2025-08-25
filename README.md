@@ -8,8 +8,6 @@ Node.js (versão LTS recomendada)
 
 Yarn ou npm
 
-(Opcional) Git
-
 Instale as dependências:
 
 # com Yarn
