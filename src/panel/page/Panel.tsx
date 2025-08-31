@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { PanelService } from "../service/panel.service";
+import { useUser } from "../../core/hooks/useUser";
+import { useToast } from "../../core/context/alertContext";
 
 type Region = "SUDESTE" | "SUL" | "NORTE" | "NORDESTE";
 
@@ -12,6 +14,8 @@ interface SeriesData {
 const Panel: React.FC = () => {
   const [series, setSeries] = useState<SeriesData[]>([]);
   const [loading, setLoading] = useState(true);
+  const {showToast} = useToast();
+  const user = useUser();
 
   const downloadCsv = async () => {
     try {
@@ -28,8 +32,9 @@ const Panel: React.FC = () => {
       a.click();
       a.remove();
       window.URL.revokeObjectURL(url);
+      showToast({type:"success", message: "Dados coletados com sucesso"})
     } catch (err) {
-      console.error("Erro ao baixar CSV:", err);
+      showToast({type:"error", message: "Erro ao baixar o csv"})
     }
   };
 
@@ -39,19 +44,16 @@ const Panel: React.FC = () => {
         const data = await PanelService.getReport()
 
         const regions: Region[] = ["SUDESTE", "SUL", "NORTE", "NORDESTE"];
+
         const grouped: SeriesData[] = regions.map((region) => ({
           name: region,
           data: data
-            .filter((d) => d.region === region)
-            .map((d) => ({
-              x: new Date(d.date).toLocaleDateString("pt-BR", {
-                month: "2-digit",
-                year: "numeric",
-              }),
-              y: Number(d.price),
-            }))
-            .sort((a, b) => new Date(a.x).getTime() - new Date(b.x).getTime()),
-        }));
+          .filter((d) => d.region === region)
+          .map((d) => ({
+            x: d.date.slice(5, 7) + "/" + d.date.slice(2, 4),
+            y: Number(d.price),
+          })),
+      }));
 
         setSeries(grouped);
       } catch (err) {
@@ -78,7 +80,7 @@ const Panel: React.FC = () => {
     },
     dataLabels: {
       enabled: true,
-      formatter: (val: number) => val.toFixed(2),
+      formatter: (val: number) => `R$ ${val.toFixed(2)}`,
       style: {
         colors: ["#333"], // texto preto/cinza escuro
         fontSize: "12px",
@@ -101,7 +103,15 @@ const Panel: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full h-full justify-center items-center min-h-screen bg-gray-50 p-5">
+    <div className="flex flex-col w-full h-full justify-center items-center min-h-screen bg-gray-50 p-5">
+      <header className="mb-6 text-center">
+        <h2 className="text-2xl font-bold text-gray-800">
+          Bem-vindo, {user?.name}!
+        </h2>
+        <p className="text-gray-600 mt-2">
+          Este painel apresenta dados de monitoramento de preços do mercado de energia, permitindo acompanhar variações e tendências mensalmente.
+        </p>
+      </header>
     <div className="bg-white shadow-xl rounded-2xl p-6 w-full ">
       <div className="flex justify-between items-center mb-4 w-full">
         <h1 className="text-2xl font-bold text-gray-800">
