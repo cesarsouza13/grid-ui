@@ -15,7 +15,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   isAuthenticated: !!Cookies.get('token'),
-  user: null, 
+  user: Cookies.get('token') ? JSON.parse(localStorage.getItem('grid_user') || 'null') : null,
 };
 
 const authSlice = createSlice({
@@ -25,6 +25,7 @@ const authSlice = createSlice({
     setLogin: (state, action: PayloadAction<{ user: UserAuth}>) => {
         state.isAuthenticated = true;
         state.user = action.payload.user;
+        localStorage.setItem('grid_user', JSON.stringify(action.payload.user));
       },
     setLogout: (state) => {
       state.isAuthenticated = false;
