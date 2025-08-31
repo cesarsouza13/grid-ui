@@ -33,6 +33,7 @@ const Login: React.FC = () => {
             dispatch(setLogin({ user: { id, name } }));
 
             navigate('/painel');
+            showToast({type:"success", message: "logado com sucesso"})
         } catch (error) {
             if (error instanceof AxiosError) {
                 const message = getErrorReasonByApiError(error);
