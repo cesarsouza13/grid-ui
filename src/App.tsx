@@ -9,6 +9,7 @@ import { store } from './store/store';
 import { ToastProvider } from './core/context/alertContext';
 import Register from './user/page/Register';
 import Panel from './panel/page/Panel';
+import NotFound from './core/api/ApiNotFound.page';
 
 function App() {
 
@@ -20,8 +21,8 @@ function App() {
     const routeComponents: { [key: string]: JSX.Element } = {
       "/painel": <Panel />,
     };
-
-    return routeComponents[path];
+    console.log(routeComponents[path])
+    return routeComponents[path] || <NotFound />;
   }
   return (
     <>
@@ -35,6 +36,7 @@ function App() {
                 {validRoutes.map((path) => (
                   <Route key={path} path={path} element={<PrivateRoute element={getComponentForPath(path)} />} />
                 ))}
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
           </BrowserRouter>
