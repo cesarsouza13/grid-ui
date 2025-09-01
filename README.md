@@ -26,7 +26,7 @@ Crie um arquivo .env na raiz do projeto baseado no .env
 Preencha os valores conforme seu ambiente local.
 
 ```env
-VITE_GRID_API_URL=http://localhost:8080
+VITE_GRID_API_URL=http://localhost:8081
 ```
 
 
