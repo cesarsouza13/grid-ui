@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { PanelService } from "../service/panel.service";
 import { useUser } from "../../core/hooks/useUser";
-import { useToast } from "../../core/context/alertContext";
+import { useToast } from "../../core/context/AlertContext";
 
 type Region = "SUDESTE" | "SUL" | "NORTE" | "NORDESTE";
 
