@@ -8,7 +8,7 @@ import { store } from '../../store/store';
 import { setLogout } from '../../store/AuthSlice';
 
   
-const CATALOG_API_URL = import.meta.env.VITE_GRID_API_URL;
+const GRID_API_URL = import.meta.env.VITE_GRID_API_URL;
 const DefaultHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json"
@@ -35,7 +35,7 @@ export const getAxiosInstance = () => {
     if (axiosInstance) return axiosInstance;
 
     axiosInstance = axios.create({
-        baseURL: CATALOG_API_URL,
+        baseURL: GRID_API_URL,
         headers: { ...DefaultHeaders },
         timeout: 15000
     });
