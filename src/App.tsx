@@ -6,7 +6,7 @@ import PrivateRoute from './core/api/PrivateRoute'
 import Login from './user/page/Login';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import { ToastProvider } from './core/context/alertContext';
+import { ToastProvider } from './core/context/AlertContext';
 import Register from './user/page/Register';
 import Panel from './panel/page/Panel';
 import NotFound from './core/api/ApiNotFound.page';
